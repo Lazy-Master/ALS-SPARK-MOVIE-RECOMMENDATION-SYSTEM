@@ -3,28 +3,33 @@
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-A clean starter project for building a scalable movie recommendation pipeline. This baseline currently ships with a content-based recommender, a CLI entrypoint, sample movie data, unit tests, and a lightweight structure that is easy to extend into a PySpark ALS collaborative-filtering workflow next.
+A scalable movie recommendation project built around an Apache Spark and PySpark implementation of Alternating Least Squares (ALS) collaborative filtering. The main project walkthrough now lives in `Movie_Recommender_System.ipynb`, where the full pipeline covers data loading, exploratory analysis, preprocessing, ALS training, evaluation, recommendation generation, and scalability analysis.
 
-## Highlights
-- Content-based recommendation using TF-IDF and cosine similarity
-- CSV dataset loader with validation and normalization
-- Command-line workflow for quick recommendations
-- Sample dataset for immediate experimentation
-- Unit tests for loader and recommendation behavior
-- GitHub Actions workflow for automated test runs
-- Repo structure ready for future Spark ALS expansion
+## Main Artifact
+- `Movie_Recommender_System.ipynb`: end-to-end notebook for the ALS recommender workflow
 
-## Recommendation Flow
+## Project Highlights
+- Apache Spark session setup for scalable data processing
+- MovieLens-based recommendation workflow
+- ALS collaborative filtering with PySpark MLlib
+- Evaluation using `RMSE`, `MAE`, and `R2`
+- Hyperparameter exploration for rank, regularization, and iterations
+- Personalized recommendation generation for sample users
+- Scalability analysis across different data sizes
+
+## Workflow
 ```mermaid
 flowchart LR
-    A["Load movie metadata"] --> B["Normalize title, genres, keywords, and overview"]
-    B --> C["Build TF-IDF feature matrix"]
-    C --> D["Compute cosine similarity"]
-    D --> E["Look up a movie title"]
-    E --> F["Return the closest matches"]
+    A["Load MovieLens ratings and movies"] --> B["Run exploratory analysis"]
+    B --> C["Index users and movies for ALS"]
+    C --> D["Split train and test data"]
+    D --> E["Train ALS collaborative filtering model"]
+    E --> F["Evaluate RMSE, MAE, and R2"]
+    F --> G["Generate personalized recommendations"]
+    G --> H["Analyze scalability"]
 ```
 
-## Project Layout
+## Repository Layout
 ```text
 ALS-SPARK-MOVIE-RECOMMENDATION-SYSTEM/
 |-- .github/
@@ -42,57 +47,50 @@ ALS-SPARK-MOVIE-RECOMMENDATION-SYSTEM/
 |-- tests/
 |   |-- test_dataset.py
 |   `-- test_recommender.py
+|-- Movie_Recommender_System.ipynb
 |-- .gitignore
 |-- LICENSE
 |-- README.md
 `-- requirements.txt
 ```
 
-## Quickstart
-1. Create a virtual environment if you want an isolated setup.
-2. Install dependencies:
-   ```sh
-   python -m pip install -r requirements.txt
-   ```
-3. Run the example CLI:
-   ```sh
-   python -m src.cli --title "Interstellar"
-   ```
+## Notebook Coverage
+The notebook is organized into these sections:
+1. Environment setup
+2. Spark session initialization
+3. Data loading
+4. Exploratory data analysis
+5. Data preprocessing
+6. ALS model training
+7. Model evaluation
+8. Hyperparameter tuning
+9. Recommendation generation
+10. Scalability analysis
+11. Conclusion and future work
 
-## Run The Project
-Get recommendations from the sample dataset:
+## Dataset
+The notebook is written around the MovieLens recommendation datasets.
+- Primary target: `MovieLens 20M`
+- Demo-friendly fallback: `ml-latest-small`
+
+## Running The Notebook
+1. Install the dependencies you need for Spark and analysis.
+2. Open `Movie_Recommender_System.ipynb` in Jupyter or Google Colab.
+3. Run the notebook cells in order.
+4. Update dataset paths if you want to switch from the small dataset to the full MovieLens dataset.
+
+Example dependency install:
 ```sh
-python -m src.cli --title "The Matrix" --top-n 3
+python -m pip install pyspark findspark pandas matplotlib seaborn
 ```
 
-Run the demo script:
-```sh
-python examples/run_demo.py
-```
+## Notes
+- The notebook is currently the primary ALS implementation in this repo.
+- The existing `src/` and `tests/` folders are retained as an earlier lightweight baseline scaffold and can be refactored later into a full PySpark package structure.
 
-Run the tests:
-```sh
-python -m unittest discover -s tests
-```
-
-## Data Schema
-The recommender expects a CSV file with these columns:
-- `title`
-- `genres`
-- `keywords`
-- `overview`
-
-The sample dataset already follows this schema.
-
-## How The Baseline Model Works
-- Titles and metadata are normalized into a single feature string
-- A TF-IDF vectorizer converts text into numeric features
-- Cosine similarity ranks related movies
-- Recommendations exclude the selected source title
-
-## Roadmap To ALS
-- Replace the sample CSV with MovieLens ratings data
-- Add PySpark-based ALS training and evaluation
-- Introduce user and item embeddings for collaborative filtering
-- Compare TF-IDF baseline performance against ALS recommendations
-- Expose the recommender through FastAPI or Streamlit
+## Next Improvements
+- Refactor notebook logic into reusable `.py` modules
+- Add a reproducible local dataset setup script
+- Implement full `Precision@K` and `Recall@K`
+- Add a dashboard or app layer for interactive recommendations
+- Compare ALS against the earlier content-based baseline
