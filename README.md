@@ -83,14 +83,3 @@ Example dependency install:
 ```sh
 python -m pip install pyspark findspark pandas matplotlib seaborn
 ```
-
-## Notes
-- The notebook is currently the primary ALS implementation in this repo.
-- The existing `src/` and `tests/` folders are retained as an earlier lightweight baseline scaffold and can be refactored later into a full PySpark package structure.
-
-## Next Improvements
-- Refactor notebook logic into reusable `.py` modules
-- Add a reproducible local dataset setup script
-- Implement full `Precision@K` and `Recall@K`
-- Add a dashboard or app layer for interactive recommendations
-- Compare ALS against the earlier content-based baseline
