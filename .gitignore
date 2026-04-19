@@ -1,0 +1,42 @@
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Virtual environments
+venv/
+.venv/
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Coverage reports
+.coverage
+coverage/
+htmlcov/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+build/
+dist/
+
+# Dependencies cache
+.mypy_cache/
+.pytest_cache/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
