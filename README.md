@@ -1,85 +1,81 @@
 # ALS Spark Movie Recommendation System
 
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+Scalable movie recommendation system using Apache Spark's MLlib with Alternating Least Squares (ALS) collaborative filtering. Demonstrates end-to-end pipeline from data loading through personalized recommendation generation.
 
-A scalable movie recommendation project built around an Apache Spark and PySpark implementation of Alternating Least Squares (ALS) collaborative filtering. The main project walkthrough now lives in `Movie_Recommender_System.ipynb`, where the full pipeline covers data loading, exploratory analysis, preprocessing, ALS training, evaluation, recommendation generation, and scalability analysis.
+## Overview
 
-## Main Artifact
-- `Movie_Recommender_System.ipynb`: end-to-end notebook for the ALS recommender workflow
+| Aspect | Details |
+|--------|---------|
+| Dataset | MovieLens 1M (1,000,209 ratings, 6,040 users, 3,883 movies) |
+| Algorithm | ALS (Alternating Least Squares) Collaborative Filtering |
+| Framework | Apache Spark 3.5.0, PySpark MLlib |
+| Evaluation | RMSE, MAE, Precision@K, Recall@K |
 
-## Project Highlights
-- Apache Spark session setup for scalable data processing
-- MovieLens-based recommendation workflow
-- ALS collaborative filtering with PySpark MLlib
-- Evaluation using `RMSE`, `MAE`, and `R2`
-- Hyperparameter exploration for rank, regularization, and iterations
-- Personalized recommendation generation for sample users
-- Scalability analysis across different data sizes
+## Techniques
 
-## Workflow
-```mermaid
-flowchart LR
-    A["Load MovieLens ratings and movies"] --> B["Run exploratory analysis"]
-    B --> C["Index users and movies for ALS"]
-    C --> D["Split train and test data"]
-    D --> E["Train ALS collaborative filtering model"]
-    E --> F["Evaluate RMSE, MAE, and R2"]
-    F --> G["Generate personalized recommendations"]
-    G --> H["Analyze scalability"]
+### ALS Collaborative Filtering
+
+Matrix factorization approach that decomposes the user-item rating matrix into two lower-rank matrices:
+- **User factors** — latent feature representations for each user
+- **Item factors** — latent feature representations for each movie
+
+Key parameters:
+- **Rank** — Number of latent factors (tested: 5, 10, 20, 50)
+- **RegParam** — L2 regularization strength (tested: 0.05, 0.1, 0.2)
+- **MaxIter** — Number of ALS iterations
+
+### Pipeline
+
+```
+Load Data → StringIndexer → Train/Test Split → ALS Training → Evaluation → Recommendations
 ```
 
-## Repository Layout
-```text
+### Evaluation Metrics
+
+- **RMSE** — Root Mean Squared Error for rating prediction accuracy
+- **MAE** — Mean Absolute Error for average prediction deviation
+- **Precision@K** — Fraction of recommended items that are relevant
+- **Recall@K** — Fraction of relevant items that are recommended
+
+### Hyperparameter Tuning
+
+Grid search over rank and regularization parameters with RMSE as the optimization target.
+
+### Cold Start Handling
+
+Discusses strategies for new users and new movies:
+- Popular movie recommendations for new users
+- Content-based features for new movies
+- Hybrid collaborative + content-based approaches
+
+## Project Structure
+
+```
 ALS-SPARK-MOVIE-RECOMMENDATION-SYSTEM/
-|-- .github/
-|   `-- workflows/
-|       `-- tests.yml
-|-- data/
-|   `-- sample_movies.csv
-|-- examples/
-|   `-- run_demo.py
-|-- src/
-|   |-- __init__.py
-|   |-- cli.py
-|   |-- dataset.py
-|   `-- recommender.py
-|-- tests/
-|   |-- test_dataset.py
-|   `-- test_recommender.py
-|-- Movie_Recommender_System.ipynb
-|-- .gitignore
-|-- LICENSE
-|-- README.md
-`-- requirements.txt
+├── Movie_Recommender_System.ipynb   # Main notebook
+├── requirements.txt
+├── LICENSE
+└── README.md
 ```
 
-## Notebook Coverage
-The notebook is organized into these sections:
-1. Environment setup
-2. Spark session initialization
-3. Data loading
-4. Exploratory data analysis
-5. Data preprocessing
-6. ALS model training
-7. Model evaluation
-8. Hyperparameter tuning
-9. Recommendation generation
-10. Scalability analysis
-11. Conclusion and future work
+## Requirements
 
-## Dataset
-The notebook is written around the MovieLens recommendation datasets.
-- Primary target: `MovieLens 20M`
-- Demo-friendly fallback: `ml-latest-small`
-
-## Running The Notebook
-1. Install the dependencies you need for Spark and analysis.
-2. Open `Movie_Recommender_System.ipynb` in Jupyter or Google Colab.
-3. Run the notebook cells in order.
-4. Update dataset paths if you want to switch from the small dataset to the full MovieLens dataset.
-
-Example dependency install:
-```sh
-python -m pip install pyspark findspark pandas matplotlib seaborn
 ```
+pyspark==3.5.0
+pandas
+numpy
+matplotlib
+seaborn
+plotly
+```
+
+## Usage
+
+```bash
+pip install -r requirements.txt
+jupyter notebook Movie_Recommender_System.ipynb
+```
+
+## License
+
+MIT
